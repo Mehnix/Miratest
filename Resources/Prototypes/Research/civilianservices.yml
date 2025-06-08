@@ -12,8 +12,6 @@
   recipeUnlocks:
   - BorgModuleGardening
   - BorgModuleHarvesting
-  - SeedExtractorMachineCircuitboard
-  - HydroponicsTrayMachineCircuitboard
   - ReagentGrinderIndustrialMachineCircuitboard
   - PlantScanCartridge
 
@@ -73,18 +71,6 @@
     - JukeboxCircuitBoard
 
 - type: technology
-  id: RoboticCleanliness
-  name: research-technology-robotic-cleanliness
-  icon:
-    sprite: Mobs/Silicon/chassis.rsi
-    state: janitor
-  discipline: CivilianServices
-  tier: 1
-  cost: 5000
-  recipeUnlocks:
-  - BorgModuleAdvancedCleaning
-
-- type: technology
   id: MeatManipulation
   name: research-technology-meat-manipulation
   icon:
@@ -97,6 +83,34 @@
   - FatExtractorMachineCircuitboard
   - BiofabricatorMachineCircuitboard
   - BiomassReclaimerMachineCircuitboard
+
+- type: technology
+  id: Civilian Mechatronics
+  name: research-technology-civilian-mechatronics
+  icon:
+    sprite: Objects/Specific/Mech/mecha.rsi
+    state: ripley
+  discipline: CivilianServices
+  tier: 1
+  cost: 7500
+  recipeUnlocks:
+  - RipleyHarness
+  - RipleyLArm
+  - RipleyRArm
+  - RipleyLLeg
+  - RipleyRLeg
+  - RipleyCentralElectronics
+  - RipleyPeripheralsElectronics
+  - MechEquipmentGrabber
+  - HonkerHarness
+  - HonkerLArm
+  - HonkerRArm
+  - HonkerLLeg
+  - HonkerRLeg
+  - HonkerCentralElectronics
+  - HonkerPeripheralsElectronics
+  - HonkerTargetingElectronics
+  - MechEquipmentHorn
 
 # Tier 2
 
@@ -157,39 +171,9 @@
   recipeUnlocks:
   - AdvMopItem
   - MegaSprayBottle
-
-- type: technology
-  id: HONKMech
-  name: research-technology-honk-mech
-  icon:
-    sprite: Objects/Specific/Mech/mecha.rsi
-    state: honker
-  discipline: CivilianServices
-  tier: 2
-  cost: 7500
-  recipeUnlocks:
-  - HonkerHarness
-  - HonkerLArm
-  - HonkerRArm
-  - HonkerLLeg
-  - HonkerRLeg
-  - HonkerCentralElectronics
-  - HonkerPeripheralsElectronics
-  - HonkerTargetingElectronics
-  - MechEquipmentHorn
-
-- type: technology
-  id: AdvancedSpray
-  name: research-technology-advanced-spray
-  icon:
-    sprite: Objects/Weapons/Guns/Basic/spraynozzle.rsi
-    state: icon
-  discipline: CivilianServices
-  tier: 2
-  cost: 10000
-  recipeUnlocks:
   - WeaponSprayNozzle
   - ClothingBackpackWaterTank
+  - BorgModuleAdvancedCleaning
 
 - type: technology
   id: BluespaceCargoTransport

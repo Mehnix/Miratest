@@ -15,14 +15,14 @@
   # These are roundstart but not replenishable for salvage
 
 - type: technology
-  id: DraconicMunitions
-  name: research-technology-draconic-munitions
+  id: AdvancedMunitions
+  name: research-technology-advanced-munitions
   icon:
     sprite: Objects/Weapons/Guns/Ammunition/Boxes/pistol.rsi
     state: incendiarydisplay
   discipline: Arsenal
   tier: 1
-  cost: 10000
+  cost: 15000
   recipeUnlocks:
   - BoxShotgunIncendiary
   - MagazineRifleIncendiary
@@ -35,18 +35,16 @@
   - MagazineBoxMagnumIncendiary
   - MagazineBoxLightRifleIncendiary
   - MagazineBoxRifleIncendiary
-
-- type: technology
-  id: WeaponizedLaserManipulation
-  name: research-technology-weaponized-laser-manipulation
-  icon:
-    sprite: Objects/Weapons/Guns/Battery/laser_gun.rsi
-    state: icon
-  discipline: Arsenal
-  tier: 1
-  cost: 7500
-  recipeUnlocks:
-  - WeaponLaserCarbine
+  - MagazineRifleUranium
+  - MagazinePistolUranium
+  - MagazinePistolSubMachineGunUranium
+  - MagazineLightRifleUranium
+  - SpeedLoaderMagnumUranium
+  - MagazineBoxPistolUranium
+  - MagazineBoxMagnumUranium
+  - MagazineBoxLightRifleUranium
+  - MagazineBoxRifleUranium
+  - BoxShotgunUranium
 
 - type: technology
   id: NonlethalAmmunition
@@ -64,27 +62,6 @@
   - WeaponDisabler
 
 - type: technology
-  id: UraniumMunitions
-  name: research-technology-uranium-munitions
-  icon:
-    sprite: Objects/Materials/Sheets/other.rsi
-    state: uranium
-  discipline: Arsenal
-  tier: 1
-  cost: 7500
-  recipeUnlocks:
-  - MagazineRifleUranium
-  - MagazinePistolUranium
-  - MagazinePistolSubMachineGunUranium
-  - MagazineLightRifleUranium
-  - SpeedLoaderMagnumUranium
-  - MagazineBoxPistolUranium
-  - MagazineBoxMagnumUranium
-  - MagazineBoxLightRifleUranium
-  - MagazineBoxRifleUranium
-  - BoxShotgunUranium
-
-- type: technology
   id: AdvancedRiotControl
   name: research-technology-advanced-riot-control
   icon:
@@ -98,6 +75,7 @@
   - TelescopicShield
   - HoloprojectorSecurity
   - WeaponDisablerSMG
+  - ClothingBackpackElectropack
 
 - type: technology
   id: ExplosiveTechnology
@@ -117,18 +95,6 @@
   - ExplosivePayload
   - ChemicalPayload
 
-- type: technology
-  id: SpecialMeans
-  name: research-technology-special-means
-  icon:
-    sprite: Clothing/Back/Backpacks/electropack.rsi
-    state: icon
-  discipline: Arsenal
-  tier: 1
-  cost: 5000
-  recipeUnlocks:
-  - ClothingBackpackElectropack
-
 # Tier 2
 
 - type: technology
@@ -139,20 +105,9 @@
     state: icon
   discipline: Arsenal
   tier: 2
-  cost: 10000
+  cost: 15000
   recipeUnlocks:
   - WeaponLaserCannon
-
-- type: technology
-  id: WaveParticleHarnessing
-  name: research-technology-wave-particle-harnessing
-  icon:
-    sprite: Objects/Weapons/Guns/Battery/xray.rsi
-    state: icon
-  discipline: Arsenal
-  tier: 2
-  cost: 10000
-  recipeUnlocks:
   - WeaponXrayCannon
 
 - type: technology

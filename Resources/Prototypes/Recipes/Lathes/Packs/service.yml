@@ -35,6 +35,8 @@
   - BoozeDispenserMachineCircuitboard
   - SodaDispenserMachineCircuitboard
   - WashingMachineCircuitboard
+  - SeedExtractorMachineCircuitboard # roundstart gear being unlocked roundstart when (now)
+  - HydroponicsTrayMachineCircuitboard
 
 - type: latheRecipePack
   id: HydroponicsStatic
@@ -71,8 +73,6 @@
   recipes:
   - BiofabricatorMachineCircuitboard
   - FatExtractorMachineCircuitboard
-  - HydroponicsTrayMachineCircuitboard # roundstart gear being unlocked roundstart when
-  - SeedExtractorMachineCircuitboard # ^
   - MassMediaCircuitboard
   - ReagentGrinderIndustrialMachineCircuitboard
   - JukeboxCircuitBoard

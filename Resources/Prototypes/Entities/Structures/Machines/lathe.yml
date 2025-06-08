@@ -193,6 +193,7 @@
     staticPacks:
     - ChemistryStatic
     - SurgeryStatic
+    - ScienceEquipmentStatic
     dynamicPacks:
     - AdvancedTools
     - ScienceEquipment
