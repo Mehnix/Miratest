@@ -110,7 +110,8 @@ public sealed partial class TeleframeConsoleWindow : FancyWindow
         TeleportCheck(_console!.Value, false, Loc.GetString("teleporter-summary-notready"));
     }
 
-    //get valid beacons only, also make sure beacons exist!
+    //get valid beacons only, also make sure beacons exist! Beacons must be PVS'd so the client knows of them even when they're far away.
+    //However beacons may get deleted through other means and the console doesn't have a way to know.
     private IEnumerable<TeleportPoint> GetValidBeacons(IEnumerable<TeleportPoint> totalList)
     {
         foreach (var beacon in totalList)
