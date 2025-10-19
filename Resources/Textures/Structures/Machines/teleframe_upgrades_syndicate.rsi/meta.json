@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made by Mehnix",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "base"
+    },
+    {
+      "name": "base_connected"
+    },
+    {
+      "name": "base_opened"
+    },
+    {
+      "name": "base_powered"
+    },
+    {
+      "name": "module_condenser"
+    },
+    {
+      "name": "module_condenser_onlayer",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    },
+    {
+      "name": "module_superprocessor"
+    },
+    {
+      "name": "module_superprocessor_onlayer"
+    }
+  ]
+}

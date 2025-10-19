@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made by Mehnix",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "base"
+    },
+    {
+      "name": "base_connected"
+    },
+    {
+      "name": "base_opened"
+    },
+    {
+      "name": "base_powered"
+    },
+    {
+      "name": "module_AI"
+    },
+    {
+      "name": "module_AI_onlayer",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    },
+    {
+      "name": "module_destabiliser"
+    },
+    {
+      "name": "module_destabiliser_on",
+      "delays": [
+        [
+          0.25,
+          0.25
+        ]
+      ]
+    },
+    {
+      "name": "module_destabiliser_onlayer"
+    },
+    {
+      "name": "module_gateway"
+    },
+    {
+      "name": "module_gateway_onlayer"
+    },
+    {
+      "name": "module_orient"
+    },
+    {
+      "name": "module_orient_on",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    },
+    {
+      "name": "module_processor"
+    },
+    {
+      "name": "module_processor_on",
+      "delays": [
+        [
+          0.25,
+          0.25
+        ]
+      ]
+    },
+    {
+      "name": "module_scanner"
+    },
+    {
+      "name": "module_scanner_on",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    },
+    {
+      "name": "module_scanner_onlayer",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    },
+    {
+      "name": "module_speed"
+    },
+    {
+      "name": "module_speed_onlayer"
+    }
+  ]
+}
