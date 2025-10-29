@@ -32,6 +32,9 @@ namespace Content.Server.Kitchen.Components
         public SoundSpecifier JuiceSound { get; set; } = new SoundPathSpecifier("/Audio/Machines/juicer.ogg");
 
         [DataField]
+        public SoundSpecifier ItemsAddedSound = new SoundCollectionSpecifier("storageRustle");
+
+        [DataField]
         public GrinderAutoMode AutoMode = GrinderAutoMode.Off;
 
         public EntityUid? AudioStream;
