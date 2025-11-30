@@ -107,7 +107,7 @@
   - type: Teleframe
     teleportBeginEffect: EffectGravityPulse
     chargeDuration: 5
-    rechargeDuration: 10
+    rechargeDuration: 30
     teleportScatterRange: 0.5
     teleportModeEffects:
       Send: TeleportFromEffectQuiet
@@ -115,7 +115,7 @@
     powerUseActive: 5000
     explosionScore: 2.4 #if Emagged 20% explosion chance per use
   - type: TeleframeIncidentLiable
-    incidentChance: 0.10
+    incidentChance: 0.05
     incidentMultiplier: 0.50
   - type: Sprite
     sprite: Structures/teleframe_syndicate.rsi
@@ -143,8 +143,8 @@
     teleportRange: 0.45
     powerUseActive: 500
     teleportModeEffects:
-      Send: TeleportFromEffectQuiet
-      Receive: TeleportToEffectQuiet
+      Send: TeleportFromEffect
+      Receive: TeleportToEffect
   - type: Sprite
     sprite: Structures/teleframe.rsi
     drawdepth: HighFloorObjects

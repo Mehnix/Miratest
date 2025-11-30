@@ -36,14 +36,14 @@
         enum.WiresVisualLayers.MaintenancePanel:
           True: { visible: true }
           False: { visible: false } #add teleframe upgrade visuals
-  # - type: AdjacentStructure
+  # - type: AdjacentUpgrade
   # - type: TeleframeUpgrade
 
 - type: entity
   id: TeleportUpgradeAI
   parent: BaseTeleporterUpgrade
   name: teleframe AI integration server module
-  description: A compact server array that allows the station's AI to directly control a teleframe and rapidly specify teleportation points.
+  description: A compact server array that allows the station's AI to directly control a teleframe and rapidly specify teleportation points at high reliability.
   components:
   - type: Sprite
     sprite: Structures/Machines/teleframe_upgrades.rsi
@@ -130,7 +130,7 @@
   id: TeleportUpgradeOrient
   parent: BaseTeleporterUpgrade
   name: teleframe spatial orientation module
-  description: Links a teleframe to a shuttle or station's scanner systems, allowing teleportation relative to its own position and orientation as opposed to GPS coordinates.
+  description: Links a teleframe to a shuttle or station's scanner systems, allowing more precise and reliable teleportation relative to itself or that of a teleport beacon.
   components:
   - type: Sprite
     sprite: Structures/Machines/teleframe_upgrades.rsi
@@ -157,7 +157,7 @@
   id: TeleportUpgradeProcessor
   parent: BaseTeleporterUpgrade
   name: teleframe processor module
-  description: Uses the latest in magnetic tape technology to run additional teleportation simulations, reducing risk and severity of incidents.
+  description: Uses the latest in magnetic tape technology to run additional teleportation simulations, reducing risk and severity of incidents, but increasing charge time.
   components:
   - type: Sprite
     sprite: Structures/Machines/teleframe_upgrades.rsi
@@ -243,7 +243,7 @@
   id: TeleportUpgradeSyndicateProcessor
   parent: BaseTeleporterUpgrade
   name: Teleframe superprocessor module
-  description: Uses secretive syndicate telecrystal technology to offload redspace wormhole plotting onto the Syndicate Black Market's robust teleportation network, massively improving reliability and speed.
+  description: Uses secretive syndicate telecrystal technology to offload redphase wormhole plotting onto the Syndicate Black Market's robust teleportation network, massively improving reliability and speed.
   components:
   - type: Sprite
     sprite: Structures/Machines/teleframe_upgrades_syndicate.rsi
@@ -271,7 +271,7 @@
   id: TeleportUpgradeSyndicateCondenser
   parent: BaseTeleporterUpgrade
   name: Teleframe redphase condenser module
-  description: A device produced deep within Cybersun's outer research divisions. Through barely understood means this module shrinks and near-silences the otherwise noisy process of teleportation, allowing for covert infiltration deep in occupied territory.
+  description: A device produced deep within Cybersun's outer research divisions. Through barely understood means this module shrinks and near-silences the otherwise noisy process of teleportation, allowing for covert infiltration deep into enemy territory.
   components:
   - type: Sprite
     sprite: Structures/Machines/teleframe_upgrades_syndicate.rsi
@@ -294,4 +294,3 @@
       visible: false
       shader: unshaded
       map: ["active"]
-

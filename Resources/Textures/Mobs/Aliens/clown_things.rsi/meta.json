@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/7e4e9d432d88981fb9bb463970c5b98ce85c0abe and tgstation at commit https://github.com/tgstation/tgstation/commit/4f6190e2895e09116663ef282d3ce1d8b35c032e, slightly modified and combined into one by SillyAmy and Mehnix.",
+  "states": [
+    {
+      "name": "icon"
+    },
+    {
+      "name": "mask_dead"
+    },
+    {
+      "name": "mask_alive",
+      "directions": 4
+    },
+    {
+      "name": "mask_moving",
+      "directions": 4,
+      "delays": [
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2
+        ]
+      ]
+    },
+    {
+        "name": "clownothing_alive",
+        "directions": 4
+    },
+    {
+      "name": "clownothing_dead"
+    }
+  ]
+}

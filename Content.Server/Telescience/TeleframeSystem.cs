@@ -177,13 +177,13 @@ public sealed partial class TeleframeSystem : SharedTeleframeSystem
 
         var sourceEffect = ent.Comp.TeleportModeEffects.GetValueOrDefault(mode);
         var targetEffect = ent.Comp.TeleportModeEffects.GetValueOrDefault(mode.GetOpposite());
-
+        //non-predictable bit starts
         Spawn(ent.Comp.TeleportBeginEffect, tp.Coordinates); //flash start effect
         var sourcePortal = Spawn(sourceEffect, tp.Coordinates); //put source portal on Teleframe
 
         Spawn(ent.Comp.TeleportBeginEffect, target); //flash start effect
         var targetPortal = Spawn(targetEffect, target); //put target portal on target Coords.
-
+        //non-predictable bit ends. Could split coord teleporting and beacon teleporting to make beacon teleporting predicted.
         ent.Comp.ActiveTeleportInfo = mode switch
         {
             TeleframeActivationMode.Send => new TeleframeActiveTeleportInfo(mode, GetNetEntity(targetPortal), GetNetEntity(sourcePortal)),
@@ -194,7 +194,7 @@ public sealed partial class TeleframeSystem : SharedTeleframeSystem
         //prevent teleportation if receiving portal is not on a grid
         switch (mode)
         {
-            case TeleframeActivationMode.Send:
+            case TeleframeActivationMode.Send: //target set in space prevents teleport
                 if (_transform.GetGrid(targetPortal) == null)
                 {
                     TeleportFail(ent, Loc.GetString("teleport-fail-nogrid"));
@@ -202,7 +202,7 @@ public sealed partial class TeleframeSystem : SharedTeleframeSystem
                 }
 
                 break;
-            case TeleframeActivationMode.Receive:
+            case TeleframeActivationMode.Receive: //source set in space prevents teleport (could be true for item teleframes)
                 if (_transform.GetGrid(sourcePortal) == null)
                 {
                     TeleportFail(ent, Loc.GetString("teleport-fail-nogrid"));
@@ -269,8 +269,10 @@ public sealed partial class TeleframeSystem : SharedTeleframeSystem
 
             _transform.SetWorldPosition(tp, scatterpos); //set final position after scatter
 
-            var frameEv = new TeleframeTeleportedEvent(tp, tpToCoords, tpFromCoords); //raise teleport event on teleported entity
+            var frameEv = new TeleframeTeleportedEvent(tp, tpToCoords, tpFromCoords, _transform.ToMapCoordinates(tpEnt.Coordinates)); //raise teleport event on teleframe
             RaiseLocalEvent(ent.Owner, ref frameEv);
+            var userEv = new TeleframeUserTeleportedEvent(tp, tpToCoords, tpFromCoords, _transform.ToMapCoordinates(tpEnt.Coordinates)); //raise teleport event on teleported entity
+            RaiseLocalEvent(tp, ref userEv);
 
             teleported.Add(tp);
         }

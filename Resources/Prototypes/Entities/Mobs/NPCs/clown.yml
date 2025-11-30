@@ -1,0 +1,112 @@
+- type: entity
+  name: mask
+  id: ClownThing
+  parent: [ SimpleMobBase, MobCombat ]
+  description: A clown thing, filled with malice.
+  components:
+  - type: CombatMode
+  - type: MovementSpeedModifier
+    baseWalkSpeed : 3
+    baseSprintSpeed : 3
+  - type: InputMover
+  - type: MobMover
+  - type: Reactive
+    groups:
+      Flammable: [Touch]
+      Extinguish: [Touch]
+  - type: NpcFactionMember
+    factions:
+    - SimpleHostile
+  - type: Sprite
+    drawdepth: SmallMobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base", "movement"]
+      state: mask_alive
+      sprite: Mobs/Aliens/clown_things.rsi
+  - type: SpriteMovement
+    movementLayers:
+      movement:
+        state: mask_moving
+    noMovementLayers:
+      movement:
+        state: mask_alive
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: mask_alive
+      Critical:
+        Base: mask_dead
+      Dead:
+        Base: mask_dead
+  - type: Physics
+    bodyType: KinematicController
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.2
+        density: 10
+        mask:
+        - SmallMobMask
+        layer:
+        - SmallMobLayer
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
+  - type: MobState
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      20: Critical #most common proper weapons take two hits, honk.
+      40: Dead
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 60
+      behaviors:
+      - !type:GibBehavior
+        recursive: false
+  - type: Stamina
+    critThreshold: 60
+  - type: MeleeWeapon
+    soundHit:
+        path: /Audio/Items/Bikehorn.ogg
+    damage:
+      types:
+        Blunt: 8
+  - type: Butcherable
+    spawned:
+    - id: ClothingMaskClown
+      amount: 1
+    - id: ClothingShoesClown
+      amount: 1
+  - type: Vocal
+    sounds:
+      Male: Cluwne
+      Female: Cluwne
+      Unsexed: Cluwne
+    wilhelmProbability: 0.001
+  - type: Tag
+    tags:
+      - DoorBumpOpener
+      - CannotSuicide
+      - FootstepSound
+  - type: Speech
+    speechVerb: SmallMob
+  - type: Bloodstream
+    bloodMaxVolume: 25
+    bloodReagent: Laughter
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepClown
+      params:
+        variation: 0.17
+  - type: InnateTool
+    tools:
+      - id: BikeHorn
