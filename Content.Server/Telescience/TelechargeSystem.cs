@@ -24,6 +24,26 @@ public sealed partial class TelechargeSystem : SharedTelechargeSystem
         SubscribeLocalEvent<TelechargeComponent, AfterInteractEvent>(OnAfterInteract);
     }
 
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        //search for Teleframe entities with the TeleframeRechargingComponent and check if they've reached the end of their timer.
+        var queryRecharge = EntityQueryEnumerator<TelechargeRechargingComponent, TelechargeComponent>();
+        while (queryRecharge.MoveNext(out var uid, out var recharge, out var telecharge))
+        {
+            if (Timing.CurTime < recharge.EndTime)
+                continue;
+
+            EndTelechargeRecharge((uid, telecharge), recharge);
+        }
+    }
+
+    private void EndTelechargeRecharge(Entity<TelechargeComponent> ent, TelechargeRechargingComponent recharge)
+    {
+        RemCompDeferred<TelechargeRechargingComponent>(ent);
+    }
+
     /// <summary>
     /// Transfer science stored in the telecharge to a research server if it has any.
     /// </summary>
@@ -42,6 +62,7 @@ public sealed partial class TelechargeSystem : SharedTelechargeSystem
             ent.Comp.Science = 0; //then remove it from the telecharge
             args.Handled = true;
         }
+        UpdateAppearance(ent);
     }
     ///<summary>
     /// Gets coordinate location relative to a beacon only use if there truly is nothing nearby

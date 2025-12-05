@@ -173,7 +173,7 @@
 - type: entity
   id: BluespaceDistortion
   name: bluespace distortion
-  description: An anomalous tear in the fabric in reality, questionably stable.
+  description: An anomalous fracture in the fabric in reality, questionably stable.
   components:
   - type: Transform
     anchored: True
@@ -197,11 +197,11 @@
   - type: Appearance
   - type: AnimationPlayer
   - type: Sprite
-    sprite: Structures/Specific/Anomalies/shadow_anom.rsi
+    sprite: Objects/Magic/Eldritch/reality_fracture.rsi
     noRot: true
     drawdepth: Effects
     layers:
-    - state: pulse
+    - state: icon
   - type: PointLight
     radius: 1.5
     energy: 12.5

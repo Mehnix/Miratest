@@ -3,15 +3,18 @@ using Content.Shared.Telescience.Components;
 using Content.Shared.Telescience.Events;
 using Content.Shared.Whitelist;
 using Robust.Shared.Map;
+using Robust.Shared.Timing;
 using Content.Shared.Examine;
 
 namespace Content.Shared.Telescience.Systems;
 
 public abstract partial class SharedTelechargeSystem : EntitySystem
 {
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] protected readonly IGameTiming Timing = default!;
     private const LookupFlags RangeFlags = LookupFlags.Approximate | LookupFlags.Dynamic | LookupFlags.Sundries | LookupFlags.Static;
 
     public override void Initialize()
@@ -23,6 +26,9 @@ public abstract partial class SharedTelechargeSystem : EntitySystem
         SubscribeLocalEvent<TelechargeComponent, TelechargeAddScienceEvent>(OnScience);
 
         SubscribeLocalEvent<TelechargeComponent, ExaminedEvent>(OnExamined);
+
+        SubscribeLocalEvent<TelechargeRechargingComponent, ComponentStartup>(OnRechargeStart);
+        SubscribeLocalEvent<TelechargeRechargingComponent, ComponentShutdown>(OnRechargeEnd);
     }
 
     /// <summary>
@@ -33,15 +39,16 @@ public abstract partial class SharedTelechargeSystem : EntitySystem
     /// </summary>
     private void OnTeleported(Entity<TelechargeComponent> ent, ref TeleframeUserTeleportedEvent args)
     {
-        Log.Debug("Teleported");
+        if (GetWhitelistTargets(ent.Owner, ent.Comp.Range, ent.Comp.Blacklist).Count > 0) //if detecting anything on the blacklist in range, stop immediately.
+            return;
+
         var inRange = GetWhitelistTargets(ent.Owner, ent.Comp.Range, ent.Comp.Whitelist);
-        if (inRange.Count <= 0) //if no targets in range, say so. Gotta go out and look for signs
+        if (inRange.Count <= 0) //if no targets in range, say so. Gotta go out and look for signs.
         {
             var message = Loc.GetString("telecharge-range-none", ("range", ent.Comp.Range));
             SendRadioMessage(ent, message);
             return;
         }
-        Log.Debug("In Range");
         var inScanRange = GetWhitelistTargets(ent.Owner, ent.Comp.ScanRange, ent.Comp.Whitelist);
         var (closeEnt, closeDistance) = GetClosest(inRange!, args.ToTrue); //the user will only know the teleported target destination coords, but distance is calculated from the true, scattered location. Introducing uncertainty.
         if (inScanRange.Count <= 0) //if targets in range, but none in scan range, say how far away closest is
@@ -51,17 +58,21 @@ public abstract partial class SharedTelechargeSystem : EntitySystem
             SendRadioMessage(ent, message);
             return;
         }
-        else
+        else //if at least one in range, scan it
         {
-            Log.Debug("Scanning");
+            var rechargeComp = AddComp<TelechargeRechargingComponent>(ent); //scanned, so recharge
+            rechargeComp.Duration = ent.Comp.RechargeDuration;
+            rechargeComp.EndTime = ent.Comp.RechargeDuration + Timing.CurTime;
+            Dirty(ent.Owner, rechargeComp);
+
             var incidentMult = 1f; //should really be zero for non incident liable teleframes but those are all admeme and 0 would be boring.
             if (TryComp<TeleframeIncidentLiableComponent>(args.Teleframe, out var teleComp)) //if the teleframe that sent the telecharge is incident liable, update incident multiplier
                 incidentMult = teleComp.IncidentMultiplier;
 
             foreach (var target in inScanRange) //for each scanned target
             {
-                var distance = (float)GetMapCoordinatesDistance(args.ToTrue, _transform.ToMapCoordinates(Transform(target).Coordinates));
-                Log.Debug($"{target.ToString()} {ent.Owner} {distance} {incidentMult}");
+                var distance = (float)GetMapCoordinatesDistance(args.ToTrue, _transform.ToMapCoordinates(Transform(target).Coordinates)); //distance between telecharge and target
+                //Log.Debug($"{target.ToString()} {ent.Owner} {distance} {incidentMult}");
                 var scanEv = new TelechargeScanEvent(ent.Owner, distance, incidentMult);
                 RaiseLocalEvent(target, ref scanEv); //send a scan event, they can then send back how much science the telecharge gets.
             }
@@ -148,7 +159,7 @@ public abstract partial class SharedTelechargeSystem : EntitySystem
             if (_whitelistSystem.IsWhitelistPass(whitelist, target)) //check if matching whitelist
             {
                 whitelistEntities.Add(target); //if yes, add to list
-                Log.Debug(target.ToString());
+                //Log.Debug(target.ToString());
             }
         }
         return whitelistEntities; //return whitelisted entities in range
@@ -163,6 +174,33 @@ public abstract partial class SharedTelechargeSystem : EntitySystem
     private double GetMapCoordinatesDistance(MapCoordinates a, MapCoordinates b)
     {   // a^2 + b^2 = c^2
         return Math.Sqrt(Math.Pow(Math.Abs(a.X - b.X), 2) + Math.Pow(Math.Abs(a.Y - b.Y), 2));
+    }
+
+    protected void UpdateAppearance(Entity<TelechargeComponent> ent)
+    {
+        TelechargeVisualState state;
+        if (ent.Comp.Science > 0)
+            state = TelechargeVisualState.Full;
+        else
+            state = TelechargeVisualState.Empty;
+
+        if (HasComp<TelechargeRechargingComponent>(ent))
+            state = TelechargeVisualState.Recharging;
+
+        _appearance.SetData(ent.Owner, TelechargeVisuals.VisualState, state); //Dirties itself
+        Dirty(ent);
+    }
+
+    private void OnRechargeStart(Entity<TelechargeRechargingComponent> ent, ref ComponentStartup args)
+    {
+        if (TryComp<TelechargeComponent>(ent, out var telecomp))
+            UpdateAppearance((ent.Owner, telecomp));
+    }
+
+    private void OnRechargeEnd(Entity<TelechargeRechargingComponent> ent, ref ComponentShutdown args)
+    {
+        if (TryComp<TelechargeComponent>(ent, out var telecomp))
+            UpdateAppearance((ent.Owner, telecomp));
     }
 
     // See server-side

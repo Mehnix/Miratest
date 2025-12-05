@@ -2,6 +2,7 @@ using Content.Shared.Radio;
 using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
 using Robust.Shared.GameStates;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.Telescience.Components;
 
@@ -20,8 +21,11 @@ public sealed partial class TelechargeComponent : Component
     public EntityWhitelist? Whitelist;
 
     /// <summary>
-    /// What to ignore on teleporting. Takes priority over Whitelist.
+    /// If detecting anything on this list stop immediately and don't scan
     /// </summary>
+    /// <remarks>
+    /// Keep <see cref="TelechargeRechargingComponent"=> on this to prevent multiple telecharges scanning from a single teleport.
+    /// </remarks>
     [DataField]
     public EntityWhitelist? Blacklist;
 
@@ -43,15 +47,35 @@ public sealed partial class TelechargeComponent : Component
     public ProtoId<RadioChannelPrototype>? AnnouncementChannel;
 
     /// <summary>
-    /// Amount of stored science
-    /// </summary>
-    [ViewVariables, AutoNetworkedField]
-    public int Science = 0;
-
-    /// <summary>
     /// Max range at which the telecharge gains science from a distortion
     /// </summary>
     [DataField]
     public int ScanRange = 5;
 
+    /// <summary>
+    /// Time before telecharge cools off. A cooling off telecharge has the TelechargeRechargingComponent, which can be added to the blacklist to prevent other telecharges scanning
+    /// </summary>
+    [DataField]
+    public TimeSpan RechargeDuration = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    /// Amount of stored science
+    /// </summary>
+    [ViewVariables, AutoNetworkedField]
+    public int Science = 0;
+
+}
+
+[NetSerializable, Serializable]
+public enum TelechargeVisuals : byte
+{
+    VisualState
+}
+
+[NetSerializable, Serializable]
+public enum TelechargeVisualState : byte
+{
+    Empty,
+    Recharging,
+    Full
 }
