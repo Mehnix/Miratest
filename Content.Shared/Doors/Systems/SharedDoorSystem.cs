@@ -124,7 +124,7 @@ public abstract partial class SharedDoorSystem : EntitySystem
         if (!TryComp<AirlockComponent>(uid, out var airlock))
             return;
 
-        if (IsBolted(uid) || !airlock.Powered)
+        if (!airlock.Powered)
             return;
 
         if (door.State != DoorState.Closed)
@@ -194,7 +194,6 @@ public abstract partial class SharedDoorSystem : EntitySystem
         door.State = state;
         Dirty(uid, door);
         RaiseLocalEvent(uid, new DoorStateChangedEvent(state));
-
         AppearanceSystem.SetData(uid, DoorVisuals.State, door.State);
         return true;
     }
@@ -369,7 +368,10 @@ public abstract partial class SharedDoorSystem : EntitySystem
             Audio.PlayPvs(door.OpenSound, uid, AudioParams.Default.WithVolume(-5));
 
         if (lastState == DoorState.Emagging && TryComp<DoorBoltComponent>(uid, out var doorBoltComponent))
-            SetBoltsDown((uid, doorBoltComponent), !doorBoltComponent.BoltsDown, user, true);
+        {
+            SetBoltsDown((uid, doorBoltComponent), false, user, true); //mira change. trust the process.
+            SetBoltsDown((uid, doorBoltComponent), true, user, true); //set false then true to make sure the sound is played. If only true, only plays sound for unbolted
+        }
     }
 
     /// <summary>
