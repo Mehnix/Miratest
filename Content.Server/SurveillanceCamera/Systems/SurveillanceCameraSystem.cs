@@ -1,5 +1,6 @@
 using Content.Server.DeviceNetwork.Systems;
 using Content.Server.Emp;
+using Content.Server.Power.Components;
 using Content.Shared.ActionBlocker;
 using Content.Shared.DeviceNetwork;
 using Content.Shared.DeviceNetwork.Events;
@@ -21,6 +22,7 @@ public sealed class SurveillanceCameraSystem : EntitySystem
     [Dependency] private readonly DeviceNetworkSystem _deviceNetworkSystem = default!;
     [Dependency] private readonly UserInterfaceSystem _userInterface = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly SurveillanceCameraMapSystem _cameraMapSystem = default!;
 
     // Pings a surveillance camera subnet. All cameras will always respond
     // with a data message if they are on the same subnet.
@@ -287,6 +289,7 @@ public sealed class SurveillanceCameraSystem : EntitySystem
         }
 
         UpdateVisuals(camera, component);
+        _cameraMapSystem.UpdateCameraMarker((camera, component));
     }
 
     public void AddActiveViewer(EntityUid camera, EntityUid player, EntityUid? monitor = null, SurveillanceCameraComponent? component = null, ActorComponent? actor = null)
