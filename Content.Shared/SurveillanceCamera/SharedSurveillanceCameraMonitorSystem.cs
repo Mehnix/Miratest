@@ -37,10 +37,11 @@ public sealed class SurveillanceCameraMonitorUiState : BoundUserInterfaceState
 public sealed class SurveillanceCameraMonitorSwitchMessage : BoundUserInterfaceMessage
 {
     public string Address { get; }
-
-    public SurveillanceCameraMonitorSwitchMessage(string address)
+    public string? CameraSubnet { get; }
+    public SurveillanceCameraMonitorSwitchMessage(string address, string? cameraSubnet = null)
     {
         Address = address;
+        CameraSubnet = cameraSubnet;
     }
 }
 
